@@ -33,8 +33,10 @@ defineProps<{
             {'justify-center': collapsed}
           ]"
         >
-          <Icon :icon="icon" />
-          <span v-if="!collapsed" class="text-sm">{{ label }}</span>
+          <Icon :icon="icon" class="shrink-0" />
+          <span v-if="!collapsed" class="text-sm text-ellipsis text-nowrap">
+            {{ label }}
+          </span>
         </RouterLink>
       </TooltipTrigger>
       <TooltipContent side="right">
@@ -47,10 +49,11 @@ defineProps<{
 
 <style>
 .router-link-exact-active {
-  @apply bg-gray-200 text-gray-900
+  @apply bg-gray-200 dark:bg-gray-800 text-gray-900
 }
 
 .link {
-  @apply flex transition-all duration-100 ease-in-out items-center gap-x-2.5 py-2 text-gray-600 hover:bg-gray-100
+  @apply flex transition-all duration-100 ease-in-out items-center gap-x-2.5 py-2
+  text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/60
 }
 </style>

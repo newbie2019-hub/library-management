@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\book\DurationType;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,13 +21,15 @@ class IssuedBook extends Model
         'member_id',
         'book_id',
         'issued_at',
+        'return_date',
         'quantity',
     ];
 
     protected function casts(): array
     {
         return [
-            'issued_at' => 'datetime'
+            'issued_at' => 'datetime',
+            'return_date' => 'datetime'
         ];
     }
 
@@ -42,5 +46,10 @@ class IssuedBook extends Model
     public function librarian(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeOverdue(Builder $query): void
+    {
+        $query->whereDate('return_date', '<', now())->latest();
     }
 }

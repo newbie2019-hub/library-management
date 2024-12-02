@@ -7,14 +7,14 @@ import { RESPONSE } from '@/@types/status'
 import { toast } from 'vue-sonner'
 import router from '@/router'
 import { ROUTE } from '@/@types/routes'
+import { useSettingStore } from '@/modules/settings/store/settings'
 
 export const useAuthStore = defineStore('authentication', () => {
   const storedUser = localStorage.getItem('user')
 
   const user = ref((storedUser && JSON.parse(storedUser)) ?? '')
-  const form = useForm({
-    validationSchema: LoginSchema
-  })
+
+  const loading = ref<boolean>(false)
 
   const getCSRFToken = async () => {
     await api.get('sanctum/csrf-cookie', {
@@ -22,28 +22,40 @@ export const useAuthStore = defineStore('authentication', () => {
     })
   }
 
-  const authenticatedUser = async () => {
-    const { status, data } = await api.get('user')
+  const { setFormValues } = useSettingStore()
 
-    if (status === RESPONSE.SUCCESS) {
-      user.value = data
+  const authenticatedUser = async () => {
+    const res = await api.get('user')
+
+    if (res.status === RESPONSE.SUCCESS) {
+      user.value = res?.data
+      setFormValues(res?.data)
     }
   }
 
+  // Form
+  const form = useForm({
+    validationSchema: LoginSchema
+  })
+
   const login = form.handleSubmit(
     async (values, { resetForm, setFieldError }) => {
+      loading.value = true
       const { status, data } = await api.post('login', values,
         { baseURL: import.meta.env.VITE_API_WEB_URL }
       )
 
+      loading.value = false
+
       if (status === RESPONSE.UNPROCESSABLE_ENTITY) {
         setFieldError('email', data?.errors?.email[0])
-        user.value = data
         return;
       }
 
       if (status === RESPONSE.SUCCESS) {
         localStorage.setItem('user', JSON.stringify(data))
+        user.value = data
+
         toast.success(`Welcome back, ${data.last_name}!`)
         return router.replace({ name: ROUTE.DASHBOARD })
       }
@@ -54,9 +66,12 @@ export const useAuthStore = defineStore('authentication', () => {
   )
 
   const logout = async () => {
+    loading.value = true
     const { status } = await api.post('logout', null, {
       baseURL: import.meta.env.VITE_API_WEB_URL
     })
+
+    loading.value = false
 
     if (status === RESPONSE.NO_CONTENT) {
       localStorage.removeItem('user')
@@ -66,7 +81,9 @@ export const useAuthStore = defineStore('authentication', () => {
 
   return {
     authenticatedUser,
+    getCSRFToken,
     user,
+    loading,
     login,
     logout
   }

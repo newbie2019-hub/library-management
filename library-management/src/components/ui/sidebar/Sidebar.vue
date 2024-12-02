@@ -10,7 +10,7 @@ withDefaults(defineProps<{
   minSize?: number
   maxSize?: number
 }>(), {
-  minSize: 6,
+  minSize: 10,
   maxSize: 15
 })
 

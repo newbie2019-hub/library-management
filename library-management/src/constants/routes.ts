@@ -14,6 +14,16 @@ export const routes: Routes[] = [
     path: { name: ROUTE.DASHBOARD }
   },
   {
+    label: 'Books',
+    icon: 'mdi:book-heart-outline',
+    path: { name: ROUTE.MANAGE_BOOKS }
+  },
+  {
+    label: 'Categories',
+    icon: 'mdi:bookmark-multiple-outline',
+    path: { name: ROUTE.CATEGORIES }
+  },
+  {
     label: 'Members',
     icon: 'mdi:user-group-outline',
     path: { name: ROUTE.MEMBERS }
@@ -22,16 +32,6 @@ export const routes: Routes[] = [
     label: 'Authors',
     icon: 'mdi:user-heart-outline',
     path: { name: ROUTE.AUTHORS }
-  },
-  {
-    label: 'Categories',
-    icon: 'mdi:bookmark-multiple-outline',
-    path: { name: ROUTE.CATEGORIES }
-  },
-  {
-    label: 'Books',
-    icon: 'mdi:book-heart-outline',
-    path: { name: ROUTE.MANAGE_BOOKS }
   },
   {
     label: 'Issued Books',

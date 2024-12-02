@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import  { useForm } from 'vee-validate'
-import { LoginSchema } from '../../schema/auth';
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -47,7 +45,12 @@ const store = useAuthStore()
         </div>
       </FormItem>
     </FormField>
-    <Button type="submit" class="mt-5 w-full flex">
+    <Button
+      type="submit"
+      class="mt-5 w-full flex"
+      :loading="store.loading"
+      :disabled="store.loading"
+    >
       Login
     </Button>
   </form>

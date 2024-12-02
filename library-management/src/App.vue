@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { Toaster } from 'vue-sonner';
-import { onBeforeMount, onMounted, provide, type InjectionKey } from 'vue';
-import { userKey } from './@types/injection-key';
+import { onBeforeMount } from 'vue';
 import { useAuthStore } from './modules/auth/store/auth';
 
-const store = useAuthStore()
-
-provide(userKey, store.user)
+const { authenticatedUser } = useAuthStore()
 
 onBeforeMount(
   async () => {
-    await store.authenticatedUser()
+    await authenticatedUser()
   }
 )
 </script>

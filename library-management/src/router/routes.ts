@@ -54,7 +54,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'settings',
         name: ROUTE.SETTINGS,
-        component: () => import('../modules/dashboard/pages/UserDashboard.vue')
+        component: () => import('../modules/settings/pages/UserSettings.vue')
       },
     ]
   },
