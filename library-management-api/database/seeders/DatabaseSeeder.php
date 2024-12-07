@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             AuthorSeeder::class,
             BookSeeder::class,
-            IssuedBookSeeder::class
-            // ReturnedBookSeeder::class,
+            IssuedBookSeeder::class,
+            ReturnedBookSeeder::class
         ]);
     }
 }

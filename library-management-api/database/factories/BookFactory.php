@@ -19,7 +19,7 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
-            'author_id' => Author::factory()->create(),
+            'author_id' => Author::inRandomOrder()->first(),
             'isbn_no' => fake()->ean13(),
             'title' => fake()->sentence(4),
             'quantity' => fake()->numberBetween(10, 50),

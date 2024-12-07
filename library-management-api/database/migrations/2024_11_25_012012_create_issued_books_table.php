@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained('users', 'id')->cascadeOnDelete();
             $table->foreignUuid('member_id')->constrained('users', 'id')->cascadeOnDelete();
             $table->integer('quantity');
+            $table->integer('returned_qty')->default(0);
             $table->timestamp('return_date');
             $table->timestamp('issued_at');
             $table->softDeletes();

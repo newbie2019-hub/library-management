@@ -22,11 +22,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
-            return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
+            return config('app.frontend_url') . "/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
         });
 
-        Response::macro('success', function (mixed $data) {
-            return Response::json($data, 200);
+        Response::macro('data', function (mixed $data) {
+            return Response::json($data);
+        });
+
+        Response::macro('success', function (mixed $data, ?string $msg = null) {
+            return Response::json([
+                'data' => $data,
+                'message' => $msg
+            ]);
         });
 
         Response::macro('error', function (string $msg) {

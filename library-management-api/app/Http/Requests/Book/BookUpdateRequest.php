@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Book;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class BookUpdateRequest extends FormRequest
 {
@@ -23,7 +24,10 @@ class BookUpdateRequest extends FormRequest
     {
         return [
             'author_id' => 'sometimes|required|exists:authors,id',
-            'isbn_no' => 'sometimes|required|string|unique:books,isbn_no'.$this->id,
+            'isbn_no' => [
+                'required',
+                Rule::unique('books', 'isbn_no')->ignore($this->book)
+            ],
             'title' => 'sometimes|required|string',
             'categories' => 'sometimes|array',
             'categories.*' => 'sometimes|exists:categories,id',

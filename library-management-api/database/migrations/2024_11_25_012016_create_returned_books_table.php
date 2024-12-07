@@ -8,14 +8,16 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */
+    */
     public function up(): void
     {
         Schema::create('returned_books', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('issued_book_id')->constrained()->cascadeOnDelete();
             $table->string('fine');
             $table->timestamp('returned_at');
-            $table->string('condition');
+            $table->integer('quantity');
+            $table->string('remarks');
             $table->timestamps();
         });
     }

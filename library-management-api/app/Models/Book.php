@@ -17,21 +17,21 @@ class Book extends Model
     protected $hidden = ['pivot'];
 
     protected $fillable = [
-       'author_id',
-       'isbn_no',
-       'title',
-       'quantity',
-       'price',
-       'pages',
-       'edition',
-       'publisher',
-       'series',
-       'cover_photo',
-       'published_at',
-       'purchased_at'
+        'author_id',
+        'isbn_no',
+        'title',
+        'quantity',
+        'price',
+        'pages',
+        'edition',
+        'publisher',
+        'series',
+        'cover_photo',
+        'published_at',
+        'purchased_at'
     ];
 
-     /**
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -54,7 +54,7 @@ class Book extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function issued_books(): HasMany
+    public function issuedBooks(): HasMany
     {
         return $this->hasMany(IssuedBook::class);
     }

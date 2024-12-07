@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\book\DurationType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class IssuedBookRequest extends FormRequest
 {
@@ -43,8 +41,9 @@ class IssuedBookRequest extends FormRequest
                     }
                 },
             ],
-            'duration' => 'required|numeric|min:1',
-            'duration_type' => ['required', Rule::enum(DurationType::class)]
+            'returned_qty' => 'sometimes|lte:quantity',
+            'return_date' => 'required|date',
+            'issued_at' => 'required|date'
         ];
     }
 }

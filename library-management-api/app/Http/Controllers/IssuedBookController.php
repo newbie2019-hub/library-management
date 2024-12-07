@@ -17,7 +17,8 @@ class IssuedBookController extends Controller
             ->with([
                 'book:id,title',
                 'librarian:id,first_name,last_name',
-                'member:id,first_name,last_name'
+                'member:id,first_name,last_name',
+                'returnedBooks'
             ])
             ->when($request->search, function ($query, $search) {
                 return $query->whereRelation('book', 'title', 'LIKE', '%' . $search . '%');
