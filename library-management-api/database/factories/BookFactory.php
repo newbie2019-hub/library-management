@@ -22,7 +22,7 @@ class BookFactory extends Factory
             'author_id' => Author::inRandomOrder()->first(),
             'isbn_no' => fake()->ean13(),
             'title' => fake()->sentence(4),
-            'quantity' => fake()->numberBetween(10, 50),
+            'quantity' => fake()->numberBetween(1, 1000),
             'price' => fake()->randomNumber(4),
             'pages' => fake()->numberBetween(40, 300)
         ];

@@ -32,9 +32,9 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border:214.3 31.8% 91.4%;
-    --input:214.3 31.8% 91.4%;
-    --ring:221.2 83.2% 53.3%;
+    --border: 214.3 31.8% 90%;
+    --input: 214.3 31.8% 86.4%;
+    --ring: 221.2 83.2% 53.3%;
     --radius: 0.35rem;
 
     --vis-tooltip-background-color: none !important;

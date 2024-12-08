@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthorRequest;
 use App\Models\Author;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthorController extends Controller
 {
@@ -12,6 +14,12 @@ class AuthorController extends Controller
     {
         $authors = Author::query()
             ->withCount('books')
+            ->when($request->include_record, function ($query, $includes) {
+                return match ($includes) {
+                    'with_trashed' => $query->withTrashed(),
+                    'only_trashed' => $query->onlyTrashed()
+                };
+            })
             ->when($request->search, function ($query, $search) {
                 return $query->where('title', 'LIKE', '%' . $search . '%');
             })->paginate($request->per_page ?? 15);
@@ -39,7 +47,24 @@ class AuthorController extends Controller
 
     public function destroy(Author $author)
     {
-        $author->delete();
+        try {
+            DB::beginTransaction();
+
+            $author->delete();
+            $author->books()->delete();
+
+            DB::commit();
+            return response()->noContent();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->error('Error deleting author record: ' . $e->getMessage());
+        }
+    }
+
+    public function restore(Author $author)
+    {
+        $author->restore();
         return response()->noContent();
     }
 }

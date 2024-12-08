@@ -52,7 +52,6 @@ const value = ref({
       <RangeCalendar
         v-model="value"
         initial-focus :number-of-months="2"
-        @update:start-value="(startDate) => value.start = formatDateIntl(startDate)"
       />
     </PopoverContent>
   </Popover>

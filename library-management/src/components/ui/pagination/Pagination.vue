@@ -12,13 +12,16 @@ import {
 
 defineProps<{
   perSide: number;
-  total: number;
+  total?: number;
   perPage: number;
 }>()
+
+const model = defineModel<number>('page')
 </script>
 
 <template>
   <Pagination
+    v-model:page="model"
     v-slot="{ page }"
     :total="total"
     :sibling-count="perSide"

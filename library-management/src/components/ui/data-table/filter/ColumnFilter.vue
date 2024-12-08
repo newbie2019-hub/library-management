@@ -27,7 +27,7 @@ const columns = defineModel<(TableHeaders & { shown: boolean })[]>()
       <Button variant="outline">
         <div class="flex items-center gap-x-2">
           <Icon v-if="icon" :icon="icon" />
-          <span class="font-normal">
+          <span v-if="label" class="font-normal">
             {{ label }}
           </span>
         </div>

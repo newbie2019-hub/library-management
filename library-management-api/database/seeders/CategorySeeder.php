@@ -14,26 +14,29 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-           'Horror',
-           'Romance Novel',
-           'Young Adult',
-           'Autobiography',
-           'Science Fiction',
-           'Fantasy',
-           'Adventure Fiction',
-           'Mystery',
-           'Thriller',
-           'Fairy Tale',
-           'Short Story',
-           'Suspense',
-           'Biographies',
-           'Drama',
-           'Fiction',
-           'Action',
-           'Adventure'
+            'Horror',
+            'Romance Novel',
+            'Young Adult',
+            'Autobiography',
+            'Science Fiction',
+            'Fantasy',
+            'Adventure Fiction',
+            'Mystery',
+            'Thriller',
+            'Fairy Tale',
+            'Short Story',
+            'Suspense',
+            'Biographies',
+            'Drama',
+            'Fiction',
+            'Action',
+            'Children Story',
+            'Picture',
+            'Board',
+            'Adventure'
         ];
 
-        foreach($categories as $category) {
+        foreach ($categories as $category) {
             Category::create([
                 'category' => $category
             ]);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount, provide, readonly } from 'vue';
+import { onBeforeMount, provide } from 'vue';
 import DataSummary from '../components/DataSummary.vue';
 import DataChart from '../components/DataChart.vue';
 import LatestIssued from '../components/LatestIssued.vue';

@@ -5,6 +5,8 @@ export type BookSummary = {
   categories_count: number
 }
 
+export type BookSaved = ApiResponse<Book>
+
 export type Books = PaginatedApiResponse<Book[]>
 
 export type Book = {
@@ -18,9 +20,9 @@ export type Book = {
   pages: number;
   publisher:    null;
   series: null;
-  cover_photo: null;
-  published_at: null;
-  purchased_at: null;
+  cover_photo: string | null;
+  published_at: string | null;
+  purchased_at: string | null;
   deleted_at: null;
   created_at: Date;
   updated_at: Date;

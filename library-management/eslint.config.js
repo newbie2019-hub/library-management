@@ -1,7 +1,7 @@
-import pluginVue, { rules } from 'eslint-plugin-vue'
+import pluginVue from 'eslint-plugin-vue'
 import vueTsEslintConfig from '@vue/eslint-config-typescript'
 import pluginVitest from '@vitest/eslint-plugin'
-import pluginCypress from 'eslint-plugin-cypress/flat'
+import pluginCypress, { rules } from 'eslint-plugin-cypress/flat'
 import pluginQuery from '@tanstack/eslint-plugin-query'
 
 export default [
@@ -17,7 +17,7 @@ export default [
     ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
   },
 
-  ...pluginVue.configs['flat/essential'],
+  ...pluginVue.configs['flat/recommended'],
   ...vueTsEslintConfig(),
 
   {
@@ -32,7 +32,8 @@ export default [
       'cypress/support/**/*.{js,ts,jsx,tsx}',
     ],
     rules: {
-      'vue/multi-word-components': 'off',
+      'no-console': ['error'],
+      'vue/multi-word-component-names': 0,
       'vue/max-attributes-per-line': [
         'error',
         {

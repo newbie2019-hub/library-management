@@ -4,49 +4,74 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from '@/components/ui/form'
-import { useSettingStore } from '../../store/settings';
-import Button from '@/components/ui/button/Button.vue';
-import { Input } from '@/components/ui/input';
+import { useSettingStore } from '../../store/settings'
+import Button from '@/components/ui/button/Button.vue'
+import { Input } from '@/components/ui/input'
 
 const store = useSettingStore()
 </script>
 
 <template>
-  <form @submit="store.onSubmitPersonal" class="flex flex-col gap-y-2">
-    <FormField v-slot="{ componentField }" name="email">
+  <form class="flex flex-col gap-y-2">
+    <FormField
+      v-slot="{ componentField }"
+      name="email"
+    >
       <FormItem>
         <FormLabel>Email Address</FormLabel>
         <FormControl>
-          <Input type="email" placeholder="john@gmail.com" v-bind="componentField" />
+          <Input
+            type="email"
+            placeholder="john@gmail.com"
+            v-bind="componentField"
+          />
         </FormControl>
         <FormMessage />
       </FormItem>
     </FormField>
-    <FormField v-slot="{ componentField }" name="old_password">
+    <FormField
+      v-slot="{ componentField }"
+      name="old_password"
+    >
       <FormItem>
         <FormLabel>Old Password</FormLabel>
         <FormControl>
-          <Input type="password" v-bind="componentField" />
+          <Input
+            type="password"
+            v-bind="componentField"
+          />
         </FormControl>
         <FormMessage />
       </FormItem>
     </FormField>
-    <FormField v-slot="{ componentField }" name="new_password">
+    <FormField
+      v-slot="{ componentField }"
+      name="new_password"
+    >
       <FormItem>
         <FormLabel>New Password</FormLabel>
         <FormControl>
-          <Input type="password" v-bind="componentField" />
+          <Input
+            type="password"
+            v-bind="componentField"
+          />
         </FormControl>
         <FormMessage />
       </FormItem>
     </FormField>
-    <FormField v-slot="{ componentField }" name="confirm_password">
+    <FormField
+      v-slot="{ componentField }"
+      name="confirm_password"
+    >
       <FormItem>
         <FormLabel>Confirm Password</FormLabel>
         <FormControl>
-          <Input type="password" v-bind="componentField" />
+          <Input
+            type="password"
+            v-bind="componentField"
+          />
         </FormControl>
         <FormMessage />
       </FormItem>

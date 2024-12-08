@@ -1,4 +1,4 @@
-import type { LatestIssuedBook, Member } from "@/@types/api/dashboard";
+import type { LatestIssuedBook } from "@/@types/api/dashboard";
 import type { TableHeaders } from "@/@types/components/data-table";
 import { format } from 'date-fns'
 

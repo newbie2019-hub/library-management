@@ -2,6 +2,10 @@ export {};
 
 declare global {
   type objectType = { [key: string]: unknown }
+  type ApiResponse<T> = {
+    data: T
+    message: string | null
+  }
   type PaginatedApiResponse<T> = {
     current_page: number;
     data: T;

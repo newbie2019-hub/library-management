@@ -9,16 +9,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import Separator from '../../separator/Separator.vue';
-import Badge from '../../badge/Badge.vue';
-import { Icon } from '@iconify/vue';
+import Separator from '../../separator/Separator.vue'
+import Badge from '../../badge/Badge.vue'
+import { Icon } from '@iconify/vue'
 
 defineProps<{
-  btnLabel: string;
-  optionLabel: string;
+  btnLabel: string
+  optionLabel: string
   options: {
-    label: string;
-    value: string;
+    label: string
+    value: string
   }[]
 }>()
 
@@ -32,11 +32,21 @@ const clearFilters = () => {
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger>
-      <Button variant="ghost" class="font-normal text-gray-600 dark:text-gray-200 outline-dashed outline-gray-200 dark:outline-gray-700 outline-2">
-        <Icon icon="mdi:add-circle-outline" />
+      <Button
+        variant="ghost"
+        class="font-normal text-xs text-gray-600 dark:text-gray-200 border-dashed border-2"
+      >
+        <Icon icon="mdi:filter-outline" />
         {{ btnLabel }}
-        <Separator v-if="filter" orientation="vertical" />
-        <Badge v-if="filter" variant="outline" class="font-normal">
+        <Separator
+          v-if="filter"
+          orientation="vertical"
+        />
+        <Badge
+          v-if="filter"
+          variant="outline"
+          class="font-normal"
+        >
           {{ filter }}
         </Badge>
       </Button>

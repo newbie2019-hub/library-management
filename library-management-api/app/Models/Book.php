@@ -31,19 +31,6 @@ class Book extends Model
         'purchased_at'
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'published_at' => 'datetime',
-            'purchased_at' => 'datetime',
-        ];
-    }
-
     public function author()
     {
         return $this->belongsTo(Author::class);

@@ -14,7 +14,7 @@ export const useDashboard = defineStore('dashboard', () => {
 
     loading.value = false
 
-    if (status === RESPONSE.SUCCESS) {
+    if (status === RESPONSE.OK) {
       dashboard.value = data
     }
   }

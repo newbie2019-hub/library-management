@@ -17,12 +17,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/books/{book}/restore', [BookController::class, 'restore'])->withTrashed();
     //Authors
     Route::get('/authors/all', [AuthorController::class, 'getAllAuthors']);
+    Route::put('/authors/{author}/restore', [AuthorController::class, 'restore'])->withTrashed();
+    //Categories
+    Route::put('/categories/{category}/restore', [CategoryController::class, 'restore'])->withTrashed();
 
     //Api Resource
     Route::apiResources([
         'books' => BookController::class,
         'authors' => AuthorController::class,
-        'category' => CategoryController::class,
+        'categories' => CategoryController::class,
         'issue-book' => IssuedBookController::class
     ]);
 });

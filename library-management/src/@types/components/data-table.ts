@@ -1,11 +1,17 @@
 import type { HTMLAttributes } from "vue";
+import type { TableAction } from "../table-filters";
+
+export type RowAction = {
+  label: string
+  icon?: string
+  key: TableAction
+  shown?: Date | null
+}[]
 
 export type Sort = 'asc' | 'desc' | 'none'
 
 export type TableFilters = {
-  search: string;
   sort: { column: string, order: Sort };
-  page: number
   per_page: number
 }
 
@@ -17,7 +23,7 @@ export type TableItems = Record<string, any>[]
 
 export type TableHeaders = {
   title: string;
-  align?: 'start' | 'end' | 'center';
+  rowClass?: HTMLAttributes['class']
   class?: HTMLAttributes['class']
   sortable?: boolean
   key: string
@@ -26,6 +32,6 @@ export type TableHeaders = {
 }
 
 export type PaginationConfig = {
-  per_side: number
+  per_side?: number
   total: number
 }

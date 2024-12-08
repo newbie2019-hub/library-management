@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('author_id')->constrained()->cascadeOnDelete();
-            $table->string('isbn_no');
+            $table->string('isbn_no', 13);
             $table->string('title');
             $table->integer('quantity');
-            $table->string('edition')->nullable();
+            $table->string('edition', 5)->nullable();
             $table->string('price')->nullable();
             $table->integer('pages');
             $table->string('publisher')->nullable();
-            $table->string('series')->nullable();
+            $table->string('series', 10)->nullable();
             $table->string('cover_photo')->nullable();
-            $table->timestamp('published_at')->nullable();
-            $table->timestamp('purchased_at')->nullable();
+            $table->date('published_at')->nullable();
+            $table->date('purchased_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

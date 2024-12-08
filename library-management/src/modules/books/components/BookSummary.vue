@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { inject } from 'vue';
 import CardSummary from '../../../components/ui/card/CardSummary.vue';
-import { dashboardKey } from '@/@types/injection-key/dashboard';
 import type { BookSummary } from '@/@types/api/books';
 
 defineProps<{

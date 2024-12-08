@@ -8,13 +8,12 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-const options = [
-  { label: '5', value: 5 },
-  { label: '10', value: 10 },
-  { label: '15', value: 15 },
-  { label: '20', value: 20 },
-  { label: '30', value: 30 },
-]
+defineProps<{
+  options: {
+    label: string;
+    value: number | string
+  }[]
+}>()
 </script>
 
 <template>
@@ -25,11 +24,11 @@ const options = [
     <SelectContent>
       <SelectGroup>
         <SelectItem
-          v-for="option in options"
-          :key="option.value"
-          :value="option.label"
+          v-for="opt in options"
+          :key="opt.value"
+          :value="opt.value.toString()"
         >
-          {{ option.label }}
+          {{ opt.label }}
         </SelectItem>
       </SelectGroup>
     </SelectContent>

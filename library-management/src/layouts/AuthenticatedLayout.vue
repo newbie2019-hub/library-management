@@ -6,7 +6,6 @@ import { Icon } from '@iconify/vue';
 import { useAuthStore } from '@/modules/auth/store/auth';
 import UserSidebar from '@/modules/auth/components/sidebar/UserSidebar.vue';
 import SidebarMenu from '@/modules/auth/components/sidebar/SidebarMenu.vue';
-import DarkMode from '@/components/ui/darkmode-toggle/DarkMode.vue';
 import NavigationBar from '@/components/ui/navbar/NavigationBar.vue';
 
 const store = useAuthStore()
@@ -41,7 +40,7 @@ const store = useAuthStore()
       <template #view>
         <ResizablePanel class="!overflow-y-auto">
           <NavigationBar />
-          <div class="p-7 overflow-y-auto">
+          <div class="p-7">
             <RouterView />
           </div>
         </ResizablePanel>

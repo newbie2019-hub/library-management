@@ -1,13 +1,11 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { api } from '@/lib/api'
-import { useForm } from 'vee-validate'
-import { LoginSchema } from '../schema/auth'
+import type { UserLogin } from '../schema/auth'
 import { RESPONSE } from '@/@types/status'
 import { toast } from 'vue-sonner'
 import router from '@/router'
 import { ROUTE } from '@/@types/routes'
-import { useSettingStore } from '@/modules/settings/store/settings'
 
 export const useAuthStore = defineStore('authentication', () => {
   const storedUser = localStorage.getItem('user')
@@ -22,48 +20,44 @@ export const useAuthStore = defineStore('authentication', () => {
     })
   }
 
-  const { setFormValues } = useSettingStore()
-
   const authenticatedUser = async () => {
     const res = await api.get('user')
 
-    if (res.status === RESPONSE.SUCCESS) {
+    if (res?.status === RESPONSE.OK) {
       user.value = res?.data
-      setFormValues(res?.data)
     }
   }
 
-  // Form
-  const form = useForm({
-    validationSchema: LoginSchema
-  })
+  /**
+   * setFieldError appears to be an anti-pattern in vue
+   * but there are some caveats when using vee-validate
+   * which ends up doing this way.
+   */
+  const login = async (
+    form: UserLogin,
+    setFieldError: (key: keyof UserLogin, message: string) => void
+  ) => {
+    loading.value = true
+    const { status, data } = await api.post('login', form,
+      { baseURL: import.meta.env.VITE_API_WEB_URL }
+    )
+    loading.value = false
 
-  const login = form.handleSubmit(
-    async (values, { resetForm, setFieldError }) => {
-      loading.value = true
-      const { status, data } = await api.post('login', values,
-        { baseURL: import.meta.env.VITE_API_WEB_URL }
-      )
-
-      loading.value = false
-
-      if (status === RESPONSE.UNPROCESSABLE_ENTITY) {
-        setFieldError('email', data?.errors?.email[0])
-        return;
-      }
-
-      if (status === RESPONSE.SUCCESS) {
-        localStorage.setItem('user', JSON.stringify(data))
-        user.value = data
-
-        toast.success(`Welcome back, ${data.last_name}!`)
-        return router.replace({ name: ROUTE.DASHBOARD })
-      }
-
-      authenticatedUser()
-      resetForm()
+    if (status === RESPONSE.UNPROCESSABLE_ENTITY) {
+      setFieldError('email', data?.errors?.email[0])
+      return;
     }
-  )
+
+    if (status === RESPONSE.OK) {
+      localStorage.setItem('user', JSON.stringify(data))
+      user.value = data
+
+      toast.success(`Welcome back, ${data.last_name}!`)
+      return router.replace({ name: ROUTE.DASHBOARD })
+    }
+
+    authenticatedUser()
+  }
 
   const logout = async () => {
     loading.value = true

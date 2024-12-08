@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -66,10 +67,16 @@ class BookController extends Controller
         try {
             DB::beginTransaction();
 
-            $book = Book::create($request->safe()->except(['categories']));
-            $categoriesId = $request->safe()->only(['categories'])['categories'];
+            $book = Book::create($request->safe()->except(['categories', 'image']));
 
+            if ($request->hasFile('image')) {
+                $path = Storage::putFile('avatars', $request->file('image'), 'public');
+                $book->update(['cover_photo' => $path]);
+            }
+
+            $categoriesId = $request->safe()->only(['categories'])['categories'];
             $book->categories()->sync($categoriesId);
+
             $book->load('categories:id,category');
 
             DB::commit();
@@ -84,12 +91,21 @@ class BookController extends Controller
     public function update(BookUpdateRequest $request, Book $book)
     {
         $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $path = Storage::putFile('avatars', $request->file('image'), 'public');
+            $book->update(['cover_photo' => $path]);
+        }
+
         if ($request->has('categories')) {
             $data = $request->safe()->except(['categories']);
         }
 
         $book->update($data);
-        return response()->success($book->fresh(), 'Book has been updated successfully!');
+        $book->fresh();
+        $book->load(['categories:id,category', 'author:id,author']);
+
+        return response()->success($book, 'Book has been updated successfully!');
     }
 
     public function restore(Book $book)
@@ -98,12 +114,10 @@ class BookController extends Controller
             DB::beginTransaction();
 
             $book->restore();
-            $book->issuedBooks()->each()->restore();
+            $book->issuedBooks()->restore();
 
             DB::commit();
-            return response()->success([
-                'message' => 'Book has been restored successfully!'
-            ]);
+            return response()->success(null, 'Book has been restored successfully!');
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -120,9 +134,7 @@ class BookController extends Controller
             $book->issuedBooks()->delete();  //Delete related records
 
             DB::commit();
-            return response()->success([
-                'message' => 'Book has been deleted successfully!'
-            ]);
+            return response()->success(null, 'Book has been deleted successfully!');
         } catch (Exception $e) {
             DB::rollBack();
 

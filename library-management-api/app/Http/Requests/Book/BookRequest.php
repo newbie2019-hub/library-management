@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Book;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class BookRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class BookRequest extends FormRequest
     {
         return [
             'author_id' => 'required|exists:authors,id',
-            'isbn_no' => 'required|string|unique:books,isbn_no'.$this->id,
+            'isbn_no' => 'required|string|unique:books,isbn_no' . $this->id,
             'title' => 'required|string',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
@@ -33,6 +34,7 @@ class BookRequest extends FormRequest
             'edition' => 'nullable|string',
             'publisher' => 'nullable|string',
             'series' => 'nullable|string',
+            'image' => ['nullable', File::types(['png', 'jpg', 'jpeg', 'svg'])->max('3mb')],
             'cover_photo' => 'nullable|string',
             'published_at' => 'nullable|date',
             'purchased_at' => 'nullable|date'
