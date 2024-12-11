@@ -12,6 +12,8 @@ import { computed } from 'vue'
 import ColumnFilter from './filter/ColumnFilter.vue'
 import Pagination from '../pagination/Pagination.vue'
 import Search from './filter/Search.vue'
+import PerPageOptions from './PerPageOptions.vue'
+import { pagesOption } from '@/constants/pagination'
 
 const props = defineProps<{
   caption?: string
@@ -169,16 +171,14 @@ const handleHeaderFilter = (data: TableHeaderEmit, col: TableCol) => {
       v-if="serverSideRequest"
       class="flex justify-end mt-2.5"
     >
-      <div class="flex gap-2">
-        <!-- <div class="flex items-center gap-x-2">
-          <p class="text-sm text-nowrap text-gray-600">
-            Per Page:
-          </p>
+      <div class="flex relative gap-2">
+        <div class="flex items-center gap-x-2">
+          <p class="text-sm text-nowrap text-gray-600">Per Page:</p>
           <PerPageOptions
             v-model="perPage"
             :options="pagesOption"
           />
-        </div> -->
+        </div>
         <Pagination
           v-model:page="page"
           :per-side="paginationConfig?.per_side!"

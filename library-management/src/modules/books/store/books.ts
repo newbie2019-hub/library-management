@@ -47,7 +47,6 @@ export const useBooks = defineStore('books', () => {
     loading.removeLoading(LOADING.FETCH_BOOK)
 
     if (status === RESPONSE.OK) {
-      console.log('Data: ', data)
       books.value = data
     }
   }

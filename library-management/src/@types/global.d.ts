@@ -6,6 +6,11 @@ declare global {
     data: T
     message: string | null
   }
+  //custom macro in laravel api
+  type ApiSuccess<T> = {
+    data: T;
+    message: string
+  }
   type PaginatedApiResponse<T> = {
     current_page: number;
     data: T;

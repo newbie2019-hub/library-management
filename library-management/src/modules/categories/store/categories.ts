@@ -8,7 +8,8 @@ import { toast } from 'vue-sonner'
 import { useLoading } from '@/composables/useLoading'
 import { LOADING } from '@/constants/loading'
 import { API } from '@/constants/endpoints'
-import type { Author } from '@/@types/api/authors'
+import type { Categories, Category as CategoryApi } from '@/@types/api/category'
+import type { Category } from '@/@types/schema/categories'
 
 const ENDPOINT = API.CATEGORIES;
 
@@ -16,13 +17,13 @@ export const useCategoryStore = defineStore('categories', () => {
   //Loading handler
   const loading = useLoading()
 
-  const allCategories = ref<Author[] | null>(null);
+  const allCategories = ref<CategoryApi[] | null>(null);
   //Paginated
-  const categories = ref<Books | null>(null);
+  const categories = ref<Categories | null>(null);
 
   const search = ref<string>('')
   const additionalFilters = ref<BookFilters>({
-    per_page: 15,
+    per_page: '15',
     page: 1
   })
 
@@ -33,7 +34,7 @@ export const useCategoryStore = defineStore('categories', () => {
       additionalFilters.value.page = 1
     }
 
-    const { data, status } = await api.get<Books>(ENDPOINT, {
+    const { data, status } = await api.get<Categories>(ENDPOINT, {
       params: { search: search.value, ...additionalFilters.value}
     })
 
@@ -45,14 +46,14 @@ export const useCategoryStore = defineStore('categories', () => {
   }
 
   const getAllCategories = async () => {
-    const { data, status } = await api.get<Author[]>(`${ENDPOINT}/all`)
+    const { data, status } = await api.get<CategoryApi[]>(`${ENDPOINT}/all`)
 
     if (status === RESPONSE.OK) {
       allCategories.value = data
     }
   }
 
-  const store = async (form: Author): Promise<boolean | undefined> => {
+  const store = async (form: Category): Promise<boolean | undefined> => {
     loading.setLoading(LOADING.ADD_CATEGORY)
     const { data, status } = await api.post(`${ENDPOINT}`, form)
     loading.removeLoading(LOADING.ADD_CATEGORY)
@@ -61,11 +62,13 @@ export const useCategoryStore = defineStore('categories', () => {
       toast.success(data.message)
       return true
     }
+
+    console.log('Data: ', data)
   }
 
-  const update = async (id: string, form: Author): Promise<boolean | undefined> => {
+  const update = async (id: string, form: Category): Promise<boolean | undefined> => {
     loading.setLoading(LOADING.FETCH_CATEGORIES)
-    const { data, status } = await api.put(`${ENDPOINT}/${id}`)
+    const { data, status } = await api.put<ApiSuccess<CategoryApi>>(`${ENDPOINT}/${id}`, form)
     loading.removeLoading(LOADING.FETCH_CATEGORIES)
 
     if (status === RESPONSE.OK) {
@@ -75,6 +78,8 @@ export const useCategoryStore = defineStore('categories', () => {
       toast.success(data.message)
       return true
     }
+
+    console.log('Data: ', data)
   }
 
   const destroy = async (id: string) => {

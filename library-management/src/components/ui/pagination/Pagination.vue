@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/pagination'
 
 defineProps<{
-  perSide: number;
-  total?: number;
-  perPage: number;
+  perSide: number
+  total?: number
+  perPage: number
 }>()
 
 const model = defineModel<number>('page')
@@ -29,7 +29,10 @@ const model = defineModel<number>('page')
     :items-per-page="perPage"
     :default-page="1"
   >
-    <PaginationList v-slot="{ items }" class="flex gap-0.5">
+    <PaginationList
+      v-slot="{ items }"
+      class="flex gap-0.5"
+    >
       <PaginationFirst />
       <PaginationPrev />
 

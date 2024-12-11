@@ -5,7 +5,7 @@ export type TableAction = 'update' | 'delete' | 'restore' | 'view';
 
 export type BookFilters = {
   page: number;
-  per_page: number;
+  per_page: string; //shadcn select has a type of string
   included_quantity?: IncludedQtyType
   include_record?: 'only_trashed' | 'with_trashed' | ''
   category?: CategoryFilterType

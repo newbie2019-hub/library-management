@@ -13,7 +13,9 @@ import { LOADING } from '@/constants/loading'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@iconify/vue'
 import type { TableAction } from '@/@types/table-filters'
-import type { Category } from '@/@types/api/category'
+import type { Category as CategoryApi } from '@/@types/api/category'
+import AddUpdateCategory from './AddUpdateCategory.vue'
+import type { Category } from '@/@types/schema/categories'
 
 const loading = useLoading()
 const store = useCategoryStore()
@@ -22,13 +24,16 @@ const fetchData = async () => {
   await store.getData()
 }
 
-const selectedCategory = ref<Category | null>(null)
+const selectedCategory = ref<CategoryApi | null>(null)
 
+const addUpdateRef = ref<InstanceType<typeof AddUpdateCategory> | null>(null)
+
+const actionType = ref<'add' | 'update'>('add')
 const addUpdateModal = ref<boolean>(false)
 const restoreModal = ref<boolean>(false)
 const deleteModal = ref<boolean>(false)
 
-const setAction = (category: Category, action: TableAction) => {
+const setAction = (category: CategoryApi, action: TableAction) => {
   selectedCategory.value = category
 
   if (action === 'delete') {
@@ -36,6 +41,8 @@ const setAction = (category: Category, action: TableAction) => {
   }
 
   if (action === 'update') {
+    addUpdateRef.value?.form.setFieldValue('category', category.category)
+    actionType.value = 'update'
     addUpdateModal.value = true
   }
 
@@ -58,6 +65,32 @@ const deleteCategory = async () => {
   await store.destroy(selectedCategory.value.id)
   deleteModal.value = false
   await store.getData()
+}
+
+const setAddCategory = () => {
+  actionType.value = 'add'
+  addUpdateModal.value = true
+}
+
+const handleConfirm = async (category: Category) => {
+  if (actionType.value === 'add') {
+    const success = await store.store(category)
+    closeModal(success, 'eom')
+  }
+
+  if (actionType.value === 'update') {
+    const response = await store.update(selectedCategory.value?.id!, category)
+    closeModal(response, 'Something went wrong')
+  }
+}
+
+const closeModal = (status: boolean | undefined, errorMessage?: string) => {
+  if (!status && errorMessage) {
+    addUpdateRef.value?.form.setFieldError('category', errorMessage)
+    return
+  }
+
+  addUpdateModal.value = false
 }
 
 watch(
@@ -100,6 +133,7 @@ watch(
         <Button
           variant="outline"
           class="text-xs"
+          @click="setAddCategory"
         >
           <Icon icon="mdi:add-circle-outline" />
           New Category</Button
@@ -124,11 +158,17 @@ watch(
         <DropdownOptions
           :options="actions"
           :is-deleted="(data as Book).deleted_at"
-          @select="(action: TableAction) => setAction(data as Category, action)"
+          @select="(action: TableAction) => setAction(data as CategoryApi, action)"
         />
       </div>
     </template>
   </DataTable>
+  <AddUpdateCategory
+    ref="addUpdateRef"
+    v-model="addUpdateModal"
+    :type="actionType"
+    @confirm-action="handleConfirm"
+  />
   <ConfirmModal
     v-model="deleteModal"
     title="Confirm Delete"

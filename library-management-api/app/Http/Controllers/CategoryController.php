@@ -53,7 +53,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->validated());
-        return response()->success($category->fresh());
+        return response()->success($category->fresh(), 'Category has been updated successfully!');
     }
 
     public function destroy(Category $category)
