@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Reverb\Protocols\Pusher\Server;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(Server::class, \App\Services\ReverbServer::class);
     }
 
     /**
